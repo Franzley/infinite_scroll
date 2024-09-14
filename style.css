@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+:root{
+    --scroll-gap: 1rem;
+    --scroll-transform: calc(var(--scroll-gap) / 2)
+}
+
+body{
+    display: grid;
+    place-content: center;
+    min-block-size: 100vh;
+    font-size: 1.5rem;
+    background: hsl(217, 33%, 17%);
+    color: white;
+}
+
+.project-title{
+    margin-block: 1rem;
+    /* Top // Bottom */
+    text-align: center;
+}
+
+.skill-check li{
+    padding: 1rem;
+    background: purple;
+    color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 .2rem .4rem black;
+    /* x-offset | y-offset | blur | spread */
+}
+
+.scroller{
+    max-width: 600px;
+    /* outline: 3px solid lime; */
+    user-select: none;
+    pointer-events: none;
+}
+.scroller[data-animated=true]{
+    overflow: hidden;
+    mask: linear-gradient(
+        90deg,
+        transparent,
+        white 
+        20%,
+        /* Left Blur */
+        80%,
+        /* Right Blur */
+        transparent
+        );
+}
+
+.scroller__inner{
+    padding-block: 1rem;
+    /* Top // Bottom */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.scroller[data-animated=true] .scroller__inner{
+    flex-wrap: nowrap;
+    animation: 
+    scroll 
+    var(--_animation-duration, 20s) 
+    var(--_animation-direction, forwards) 
+    linear 
+    infinite;
+    width: fit-content;
+    /* Scroller spans entire width */
+}
+.scroller[data-direction="right"]{
+    --_animation-direction: reverse;
+}
+.scroller[data-speed="fast"]{
+    --_animation-duration: 5s;
+}  
+.scroller[data-speed="slow"]{
+    --_animation-duration: 40s;
+}  
+
+@keyframes scroll {
+    to{
+        transform: translate(calc(-50% - var(--scroll-transform)));
+        /* Shift halfway through content */
+        /* Accounting for gap of 1rem, using 0.5 due to moving 50% 
+        || Creating a smooth transition */
+    }
+}
